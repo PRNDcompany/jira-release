@@ -1,0 +1,22 @@
+name: '[Jira]release version & create new version'
+description: 'release version & create new version in Jira'
+inputs:
+  domain:
+    description: 'Domain name(https://your-domain.atlassian.net)'
+    required: true
+  project:
+    description: 'Project name'
+    required: true
+  version:
+    description: 'Version name'
+    required: true
+  auth-token:
+    description: 'Jira Auth token key'
+    required: true
+
+outputs:
+  new-version:
+    description: 'New version name'
+runs:
+  using: 'node12'
+  main: 'index.js'

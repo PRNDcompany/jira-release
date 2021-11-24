@@ -1,0 +1,25 @@
+{
+  "name": "action-jira-release",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ted-prnd/action-jira-release.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ted-prnd/action-jira-release/issues"
+  },
+  "homepage": "https://github.com/ted-prnd/action-jira-release#readme",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
