@@ -1,5 +1,9 @@
 name: '[Jira]release version & create new version'
 description: 'release version & create new version in Jira'
+branding:
+  icon: "edit"
+  color: "blue"
+
 inputs:
   domain:
     description: 'Domain name(https://your-domain.atlassian.net)'
