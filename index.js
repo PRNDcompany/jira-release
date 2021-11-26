@@ -38,7 +38,6 @@ let domain, project, version, token
             console.log("Hotfix version don't create new version")
         } else {
             nextVersion = await createNextVersion(versions)
-            console.log("Create new version success!")
         }
         core.setOutput("new-version", nextVersion);
     } catch (error) {
@@ -62,6 +61,7 @@ async function getVersions(appName) {
 }
 
 async function releaseVersion(versionId) {
+    console.log("Trying release version")
     const uri = `https://${domain}.atlassian.net/rest/api/3/version/${versionId}`
     const options = {
         method: 'PUT',
@@ -76,7 +76,8 @@ async function releaseVersion(versionId) {
         json: true,
     };
 
-    await rp(options)
+    const result = await rp(options)
+    console.log(result)
     console.log("Release version success!")
 }
 
@@ -87,6 +88,7 @@ function isHotfixVersionName(versionName) {
 }
 
 async function createNextVersion(versions) {
+    console.log("Trying create new version")
     const nextVersion = getNextVersion(versions)
     const projectId = versions[versions.length - 1].projectId
     const uri = `https://${domain}.atlassian.net/rest/api/3/version`
@@ -103,7 +105,9 @@ async function createNextVersion(versions) {
         json: true,
     };
 
-    await rp(options)
+    const result = await rp(options)
+    console.log(result)
+    console.log("Create new version success!: ", nextVersion)
     return nextVersion
 }
 
