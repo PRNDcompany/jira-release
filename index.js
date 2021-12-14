@@ -10,13 +10,11 @@ let domain, project, version, token
         version = core.getInput('version');
         token = core.getInput('auth-token');
 
-        const regexp = new RegExp(".*(\\d{1,2}\\.\\d{1,2}\\.\\d{1,3})", "g");
-        const match = regexp.exec(version);
-        if (match == null || match.length < 1) {
+        const versionName = getVersionName(version)
+        if (versionName == null) {
             core.setFailed(`version is not correct: [${version}] must be '1.0.0'/'v1.0.0'/'test 1.0.0' pattern`);
             return
         }
-        const versionName = match[1]
         const appName = version.replace(versionName, '').trim()
         console.log(`appName: ${appName}, versionName: ${versionName}`)
         const versions = await getVersions(appName)
@@ -45,6 +43,15 @@ let domain, project, version, token
     }
 })();
 
+function getVersionName(version) {
+    const regexp = new RegExp(".*(\\d{1,2}\\.\\d{1,2}\\.\\d{1,3})", "g");
+    const match = regexp.exec(version);
+    if (match == null || match.length < 1) {
+        return null
+    }
+    return match[1]
+}
+
 async function getVersions(appName) {
     const uri = `https://${domain}.atlassian.net/rest/api/3/project/${project}/version?query=${encodeURI(appName)}&orderBy=name&status=unreleased`
     const options = {
@@ -57,7 +64,12 @@ async function getVersions(appName) {
     };
 
     const result = await rp(options)
-    return result.values
+    return result.values.filter((value) => {
+        const name = value.name
+        const versionName = getVersionName(name)
+        const targetName = value.name.replace(versionName, '').trim()
+        return targetName === appName
+    })
 }
 
 async function releaseVersion(versionId) {
