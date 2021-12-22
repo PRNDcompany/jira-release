@@ -40,13 +40,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
+    - name: Extract version name
+      run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
+      id: extract_version_name           
     - name: Jira Release
       id: release
-      uses: PRNDcompany/jira-release@v1.0
+      uses: PRNDcompany/jira-release@v1.2
       with:
         domain: 'your-domain'
         project: 'HDA'
-        version: 'Customer 4.1.0'
+        version: Customer ${{ steps.extract_version_name.outputs.version }}
         auth-token: 'xxxxxxxx'
     - name: Print New Version
       run: |
