@@ -47,7 +47,7 @@ jobs:
         domain: 'your-domain'
         project: 'HDA'
         version: 'Customer 4.1.0'
-        jira-token: 'xxxxxxxx'
+        auth-token: 'xxxxxxxx'
     - name: Print New Version
       run: |
         echo ${{ steps.release.outputs.new-version }}
