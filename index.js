@@ -18,7 +18,7 @@ let domain, project, version, token
         const appName = version.replace(versionName, '').trim()
         console.log(`appName: ${appName}, versionName: ${versionName}`)
         const versions = await getVersions(appName)
-        if (versions.length <= 1) {
+        if (versions.length < 1) {
             core.setFailed(`[${version}] is not exist`);
             return
         }
