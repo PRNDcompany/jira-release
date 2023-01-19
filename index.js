@@ -126,7 +126,7 @@ async function createNextVersion(versions) {
 function getNextVersion(versions) {
     const lastVersion = versions[versions.length - 1].name
     // Find minor version 1.[0].0
-    const regexp = new RegExp(".*\\d{1,2}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
+    const regexp = new RegExp(".*\\d{1,5}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
     const lastMinorVersion = regexp.exec(lastVersion)[1];
     // Version change 1.0.0 -> 1.1.0
     const nextMinorVersionCode = lastMinorVersion.replace('.', '') * 1 + 1
