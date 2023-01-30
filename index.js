@@ -2,6 +2,8 @@ const core = require('@actions/core');
 const rp = require('request-promise');
 
 let domain, project, version, token
+const versionRegExp = new RegExp(".*\\d{1,5}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
+
 (async () => {
     try {
 
@@ -44,8 +46,7 @@ let domain, project, version, token
 })();
 
 function getVersionName(version) {
-    const regexp = new RegExp(".*(\\d{1,2}\\.\\d{1,2}\\.\\d{1,3})", "g");
-    const match = regexp.exec(version);
+    const match = versionRegExp.exec(version);
     if (match == null || match.length < 1) {
         return null
     }
@@ -94,8 +95,7 @@ async function releaseVersion(versionId) {
 }
 
 function isHotfixVersionName(versionName) {
-    const regexp = new RegExp(".*\\d{1,2}\\.\\d{1,2}\\.(\\d{1,3})", "g");
-    const patchVersion = regexp.exec(versionName)[1] * 1;
+    const patchVersion = versionRegExp.exec(versionName)[1] * 1;
     return patchVersion !== 0
 }
 
@@ -126,8 +126,7 @@ async function createNextVersion(versions) {
 function getNextVersion(versions) {
     const lastVersion = versions[versions.length - 1].name
     // Find minor version 1.[0].0
-    const regexp = new RegExp(".*\\d{1,5}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
-    const lastMinorVersion = regexp.exec(lastVersion)[1];
+    const lastMinorVersion = versionRegExp.exec(lastVersion)[1];
     // Version change 1.0.0 -> 1.1.0
     const nextMinorVersionCode = lastMinorVersion.replace('.', '') * 1 + 1
     return lastVersion.replace(lastMinorVersion, `.${nextMinorVersionCode}.`)
