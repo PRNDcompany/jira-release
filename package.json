@@ -21,5 +21,8 @@
     "@actions/github": "^5.0.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6"
+  },
+  "devDependencies": {
+    "jest": "^29.4.3"
   }
 }
