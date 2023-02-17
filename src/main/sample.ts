@@ -1,3 +1,3 @@
-export function sample(a: string, b: string) : string {
+export function sample(a: string, b: string): string {
   return `${a} ${b}`
 }
