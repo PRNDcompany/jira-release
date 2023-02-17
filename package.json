@@ -1,7 +1,7 @@
 {
   "name": "action-jira-release",
   "description": "",
-  "main": "index.js",
+  "main": "src/main/index.js",
   "scripts": {
     "test": "jest"
   },
