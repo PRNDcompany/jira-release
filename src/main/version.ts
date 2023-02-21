@@ -1,5 +1,3 @@
-const versionRegExp = new RegExp(".*(\\d{1,5}\\.\\d{1,5}\\.\\d{1,5})", "g")
-
 export class Version {
   major: number
   minor: number
@@ -12,6 +10,7 @@ export class Version {
   }
 
   public static from(text: string): Version | null {
+    const versionRegExp = new RegExp(".*(\\d{1,5}\\.\\d{1,5}\\.\\d{1,5})", "g")
     const regexArray = versionRegExp.exec(text)
     if (regexArray == null) return null
 
