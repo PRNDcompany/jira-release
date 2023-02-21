@@ -9,6 +9,14 @@ export class Version {
     this.patch = patch
   }
 
+  public toVersionName(): string {
+    return `${this.major}.${this.minor}.${this.patch}`
+  }
+
+  public isHotfix(): boolean {
+    return this.patch !== 0
+  }
+
   public static from(text: string): Version | null {
     const versionRegExp = new RegExp(".*(\\d{1,5}\\.\\d{1,5}\\.\\d{1,5})", "g")
     const regexArray = versionRegExp.exec(text)

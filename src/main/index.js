@@ -1,7 +1,8 @@
 const core = require('@actions/core');
 const rp = require('request-promise');
+const { Version } = require('./version');
 
-let domain, project, version, token
+let domain, project, rawVersion, token
 const versionRegExp = new RegExp(".*\\d{1,5}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
 
 (async () => {
@@ -9,11 +10,12 @@ const versionRegExp = new RegExp(".*\\d{1,5}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
 
         domain = core.getInput('domain');
         project = core.getInput('project');
-        version = core.getInput('version');
+        rawVersion = core.getInput('version');
         token = core.getInput('auth-token');
 
-        const versionName = getVersionName(version)
-        if (versionName == null) {
+        const version = Version(rawVersion)
+        const versionName = version.toVersionName()
+        if (version == null) {
             core.setFailed(`version is not correct: [${version}] must be '1.0.0'/'v1.0.0'/'test 1.0.0' pattern`);
             return
         }
@@ -33,7 +35,7 @@ const versionRegExp = new RegExp(".*\\d{1,5}(\\.\\d{1,5}\\.)\\d{1,5}", "g");
         }
         await releaseVersion(currentVersion.id)
         let nextVersion
-        if (isHotfixVersionName(versionName)) {
+        if (version.isHotfix()) {
             nextVersion = versions[versions.length - 1].name
             console.log("Hotfix version don't create new version")
         } else {
@@ -92,11 +94,6 @@ async function releaseVersion(versionId) {
     const result = await rp(options)
     console.log(result)
     console.log("Release version success!")
-}
-
-function isHotfixVersionName(versionName) {
-    const patchVersion = versionRegExp.exec(versionName)[1] * 1;
-    return patchVersion !== 0
 }
 
 async function createNextVersion(versions) {
