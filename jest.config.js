@@ -1,3 +1,4 @@
 module.exports = {
-  testMatch: ['**/*.test.js']
+  preset: "ts-jest",
+  testMatch: ['**/*.test.js', '**/*.test.ts']
 };
