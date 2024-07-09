@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Extract version name
-      run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')"
+      run: echo "version=$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}')" >> $GITHUB_OUTPUT
       id: extract_version_name           
     - name: Jira Release
       id: release
