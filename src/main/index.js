@@ -70,6 +70,20 @@ async function getVersions(appName) {
         const targetName = value.name.replace(versionName, '').trim()
         return targetName === appName
     })
+        // sort by version number
+        // [1.10.0, 1.11.0, 1.9.0] -> [1.9.0, 1.10.0, 1.11.0]
+        .sort((a, b) => {
+            const aVersion = a.name.match(/\d+(\.\d+)+/)[0].split('.').map(Number);
+            const bVersion = b.name.match(/\d+(\.\d+)+/)[0].split('.').map(Number);
+
+            for (let i = 0; i < Math.max(aVersion.length, bVersion.length); i++) {
+                const aPart = aVersion[i] || 0;
+                const bPart = bVersion[i] || 0;
+                if (aPart > bPart) return 1;
+                if (aPart < bPart) return -1;
+            }
+            return 0;
+        });
 }
 
 async function releaseVersion(versionId) {
